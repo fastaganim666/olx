@@ -43,6 +43,7 @@ class Post(models.Model):
 
 class Response(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    text = models.TextField()
     who = models.ForeignKey(User, on_delete=models.CASCADE)
     whom_id = models.IntegerField(default=0)
     boolean = models.BooleanField(default=False)

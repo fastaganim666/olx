@@ -2,8 +2,10 @@ from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView, View
 )
 from django.shortcuts import redirect, render
+from django.core.mail import send_mail
+from django.contrib.auth.models import User
 
-from .models import Post
+from .models import Post, Response
 
 
 class PostsList(ListView):
@@ -18,6 +20,25 @@ class PostDetail(DetailView):
     model = Post
     template_name = 'post.html'
     context_object_name = 'post'
+
+
+    def post(self, request, *args, **kwargs):
+        response = Response(
+            whom_id=request.POST['author_id'],
+            post_id=request.POST['post_id'],
+            text=request.POST['text'],
+            who_id=request.user.id,
+        )
+        response.save()
+        mail = User.objects.get(id=request.POST['author_id'])
+        print(mail.email)
+        send_mail(
+            subject=f'Отклик',
+            message=request.POST['text'],
+            from_email='fastaganim666@yandex.ru',
+            recipient_list=[mail.email]
+        )
+        return redirect('/posts/')
 
 
 class PostCreate(View):
@@ -36,6 +57,13 @@ class PostCreate(View):
 
         return redirect('/posts/')
 
-    permission_required = ('news.add_post',)
+
+class Response(ListView):
+    model = Post
+    ordering = 'name'
+    template_name = 'responses.html'
+    context_object_name = 'posts'
+    paginate_by = 10
+
 
 

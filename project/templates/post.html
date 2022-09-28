@@ -7,4 +7,15 @@
 {% block content %}
 <h1>{{ post.name }}</h1>
 {{ post.text }}
+<h3>Отправить отклик</h3>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="text">Текст</label>
+    <input type="hidden" name="post_id" value="{{ post.id }}">
+    <input type="hidden" name="author_id" value="{{ post.author_id }}">
+    <input type="text" name="text"><br><br>
+
+    <input type="submit" value="Save" />
+</form>
+
 {% endblock content %}

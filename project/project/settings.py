@@ -26,8 +26,28 @@ SECRET_KEY = 'django-insecure-$=s0hj=9kr%0d+@n1j@7(3cj!^z%af$#e#uacebopg^2uc746!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
+
 LOGIN_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = '/'
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = 'fastaganim666'
+EMAIL_HOST_PASSWORD = 'MKXD3(3*W4XdJfJ'  # пароль от почты
+EMAIL_USE_SSL = True
+ACCOUNT_EMAIL_VERIFICATION = ("mandatory")
+
+
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER + '@yandex.ru'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL
+MANAGERS = [('Dsdfsdfsdf gDSSDg', 'fastaganim666@gmail.com')]
 
 
 # Application definition
@@ -45,7 +65,11 @@ INSTALLED_APPS = [
     'django.contrib.flatpages',
     'posts',
     'allauth',
-    'allauth.account'
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'sign',
+    'protect',
 ]
 
 MIDDLEWARE = [
